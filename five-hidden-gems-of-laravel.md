@@ -2,10 +2,10 @@
 
 original:http://code.tutsplus.com/articles/five-hidden-gems-of-laravel--cms-21907
 
-[Laravel](http://laravel.com/)を使って開発をしている人は数多くいますが、フレームワークの機能にまで手を入れる人はごくわずかでしょう。実際Laravelのドキュメントはほとんどの場面を網羅しています。しかし、すべてを網羅している訳ではありません。
+[Laravel](http://laravel.com/)を使って開発をしている人は数多くいますが、フレームワークの機能にまで手を入れる人はごくわずかでしょう。実際Laravelのドキュメントはほとんどの場面を網羅しています。しかしすべてを網羅している訳ではありません。
 
-誤解してほしくないのですが、Laravelのでキュメントは素晴らしいもので、必要なことは大抵記載してあります。しかし、「全て」を記載するということは難しいことです。
-これから、その記載されていない隠れた機能について紹介します。
+誤解してほしくないのですが、Laravelのでキュメントは素晴らしいもので必要なことは大抵記載してあります。しかし「全て」を記載するということは難しいことです。
+これからその記載されていない隠れた機能について紹介します。
 
 ## Cascading Views
 
@@ -13,14 +13,14 @@ original:http://code.tutsplus.com/articles/five-hidden-gems-of-laravel--cms-2190
 
 ドキュメント: なし
 
-LaravelのViewはconfigurationファイルと同じように、入れ子にする事ができます。Cascading viewsは拡張しやすいテーマシステムを導入するのに非常に便利です。
+LaravelのViewはconfigurationファイルと同じように入れ子にする事ができます。Cascading Viewsは拡張しやすいテーマシステムを導入するのに非常に便利です。
 下がディレクトリ構成の例です。
 
 ```
 /app
     /views/
 	    /blog
-			/inde.blade.php
+			/index.blade.php
 /themes
 	/default
 		/views
@@ -28,7 +28,7 @@ LaravelのViewはconfigurationファイルと同じように、入れ子にす�
 				/index.blade.php
 			/theme.blade.php
 ```
-この構成で`return View::make('theme::blog.index');`とした時に、最初に`themes/defautl/views`にbladeファイルを探しに行き、見つからなければ`app/view`ディレクトリを探しに行くようになります。
+この構成で`return View::make('theme::blog.index');`とした時に、最初に`themes/defautl/views`にviewファイルを探しに行き、見つからなければ`app/view`ディレクトリを探しに行くようになります。
 
 このgemを使用するために`View::addNamespace`で２つのnamespaceを登録する必要があります。
 ```
@@ -44,7 +44,7 @@ View::addNamespace('theme', [
 
 ドキュメント: 一部あり
 
-Colectionsは配列の操作・管理のための素晴らしいツールです。Collectionsには多くの手軽なメソッドと、`ArrayableInterface`,`IteratorAggregate`,`JsonableInterface`など便利なインターフェイスの実装が含まれています。
+Collectionsは配列の操作・管理のための素晴らしいツールです。Collectionsには多くの手軽なメソッドと、`ArrayableInterface`,`IteratorAggregate`,`JsonableInterface`など便利なインターフェイスの実装が含まれています。
 
 ブログシステムを構築する例で使い方を紹介しましょう。ブログの記事を表す`Ariticle`classのインスタンスで構成される配列を操作したい場合は、最初にそれを引数にして`Collection`クラスを作る必要があります。
 
@@ -111,7 +111,7 @@ foreach ($articles as $article) {
 $array = $articles->toArray();
 $json = $articles->toJson();
 ```
-数あるメソッドの中で最もcoolなものの一つが`groupBy`でしょう。一つのキーを元に配列をグループ化することが出来ます。
+数あるメソッドの中で最もクールなものの一つが`groupBy`でしょう。一つのキーを元に配列をグループ化することが出来ます。
 
 ブログ記事一覧の例で言えば、記事のプロパティのcategoryでグループ化するには以下のようにします。
 ```
@@ -132,7 +132,7 @@ foreach ($results->get('tutorial') as $article) {
 
 ドキュメント: なし
 
-ルートのフィルタリングはほとんどのプロジェクトで行う、よくある作業です。ルーティングの際にユーザー認証や年齢制限などをかける事も出来ます。`Router::filter`でフィルターを作成して、個別にルートティングを設定したり、ルーティングをグループ化して、`Router::when`を使ってパターンマッチに適用させて使用します。
+ルートのフィルタリングはほとんどのプロジェクトで行う、よくある作業です。ルーティングの際にユーザー認証や年齢制限などをかける事も出来ます。`Router::filter`でフィルターを作成して、個別にルートティングを設定したり、ルーティングをグループ化して、`Router::when`を使ってurlに適用させて使用します。
 
 例:
 ```
@@ -146,7 +146,7 @@ Route::when('admin/*', 'restricted:admin');
 
 上の例では最初に`restricted`を作成しています。フィルターには`$group`パラメーターを渡すように設定されています。( `$route`と`$request`はbefore filterにいつも渡されるパラメーターです。 )
 
-しかし、より柔軟に適応したい場合はどうすれば良いでしょうか？例えばurl`admin`にはフィルターを適用したいけど、`admin/login`にはフィルターを適用したくない時です。一つの方法としてroute groupを作成して、ログインページだけそこから外す方法があります。そしてもう一つの方法として`Route::whenRegex`が使い正規表現で適用させる方法です。
+しかしより柔軟に適応したい場合はどうすれば良いでしょうか？ 例えばurl`admin`にはフィルターを適用したいけど、`admin/login`にはフィルターを適用したくない時です。一つの方法としてroute groupを作成して、ログインページだけそこから外す方法があります。そしてもう一つの方法として`Route::whenRegex`が使い正規表現で適用させる方法です。
 ```
 Route::whenRegex('/^admin(\/(?!login)\S+)?$/', 'restricted:admin');
 ```
@@ -168,7 +168,7 @@ Route::whenRegex('/^admin(\/(?!login)\S+)?$/', 'restricted:admin');
     <div class="error">{{ $errors->first('username') }}></div>;
 @endif
 ```
-上のテンプレートでは`if`句は必要ありません。`first`メソッドを使い２つ目の引数に`div`ブロックを渡せば、メッセージを簡単にwrapさせる事が出来ます。
+上のテンプレートでは`if`句は必要ありません。`first`メソッドを使い２つ目の引数に`div`ブロックを渡せば、メッセージを簡単にdivで囲う事が出来ます。
 ```
 {{ Form::text('username', null) }}
 {{ $errors->first('username', '<div class="error">:message</div>') }}
