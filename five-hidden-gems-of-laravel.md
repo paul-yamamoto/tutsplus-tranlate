@@ -1,3 +1,7 @@
+#Laravelの隠された5つの機能
+
+original:http://code.tutsplus.com/articles/five-hidden-gems-of-laravel--cms-21907
+
 [Laravel](http://laravel.com/)を使って開発をしている人は数多くいますが、フレームワークの機能にまで手を入れる人はごくわずかでしょう。実際Laravelのドキュメントはほとんどの場面を網羅しています。しかし、すべてを網羅している訳ではありません。
 
 誤解してほしくないのですが、Laravelのでキュメントは素晴らしいもので、必要なことは大抵記載してあります。しかし、「全て」を記載するということは難しいことです。
@@ -155,7 +159,7 @@ Route::whenRegex('/^admin(\/(?!login)\S+)?$/', 'restricted:admin');
 ドキュメント: 一部あり
 
 あなたが自覚していなくても、`Illuminate\Support\MessageBag` をどこかで使っているはずです。`MessageBag`の最大の役割はLaravelに組み込まれているValidatorを使った時に、そのエラーを保持することです。
-**全てのviewに存在する`$errors`変数は空の`MessageBag`インスタンスか`Redirect::to('/')->withErrors($validator);`で、セッションにフラッシュしたインスタンスを保持しています。**
+**全てのviewに存在する`$errors`変数は空の`MessageBag`インスタンスか`Redirect::to('/')->withErrors($validator);`でセッションにフラッシュしたインスタンスを保持しています。**
 
 フォームでの入力エーの時に、正しい入力方法を表示する時などにこれは使えます。
 ```
@@ -177,3 +181,26 @@ Route::whenRegex('/^admin(\/(?!login)\S+)?$/', 'restricted:admin');
 
 ドキュメント: 一部あり
 
+`Fluent`クラスは割りと昔からある機能で、最近ではフレームワークのスキーマビルダーによるマイグレーション処理に使われています。
+このクラスはLaravel3からLaravel4になっても殆ど変更はありません。唯一の大きな変更といえばインターフェイスがいくつか追加された事でしょう。
+
+`Fluent`クラスを使うのに必要な事はインスタンスを生成して任意にメソッドを呼び出すだけです。
+
+```
+$user = new Illuminate\Support\Fluent;
+$user->name('Jason')->country('Australia')->subscriber();
+```
+
+これで`$user`インスタンスには値が`Json`の`name`属性、値が`Australia`の`country`属性、booleanで`true`の値を持つ`subscriber`属性が定義されました。
+
+Laravel4.0まではインスタンスを通じての属性のsetとgetしか出来ませんでしたが、4.1以降は`toArray`、`toJson`メソッドが追加され属性の配列での取得や、JSONフォーマットでの取得が可能になりました。
+
+Laravel4.2以降は`JsonSerializable`インターフェイスが追加されたので、`json_encode`メソッドに対してダイレクトにこのインスタンスを渡す事が出来ます。
+
+## まだまだあります！
+
+5つの便利な機能について、紹介して来ましたが、察しの通りこのフレームワークにはまだまだ機能があります。
+
+Laravelがどんな機能を提供しているか知るための一番良い方法は、ソースを解読していくことです。決して難しい事ではありません、そしてフレームワークについてより深く理解が進むでしょう。
+
+もしも他の隠れ機能をみつけたら、是々非々コメント欄で紹介してください！
