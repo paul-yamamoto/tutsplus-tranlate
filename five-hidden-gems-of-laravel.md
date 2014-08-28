@@ -30,7 +30,7 @@ LaravelのViewはconfigurationファイルと同じように入れ子にする�
 ```
 この構成で`return View::make('theme::blog.index');`とした時に、最初に`themes/defautl/views`にviewファイルを探しに行き、見つからなければ`app/view`ディレクトリを探しに行くようになります。
 
-このgemを使用するために`View::addNamespace`で２つのnamespaceを登録する必要があります。
+この機能を使用するために`View::addNamespace`で２つのnamespaceを登録する必要があります。
 ```
 View::addNamespace('theme', [
     base_path().'/themes/default/views',
