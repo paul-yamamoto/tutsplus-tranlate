@@ -1,11 +1,11 @@
-#Laravelの隠された5つの機能
+#Laravelの知られざる5つの機能
 
 original:http://code.tutsplus.com/articles/five-hidden-gems-of-laravel--cms-21907
 
 [Laravel](http://laravel.com/)を使って開発をしている人は数多くいますが、フレームワークの機能にまで手を入れる人はごくわずかでしょう。実際Laravelのドキュメントはほとんどの場面を網羅しています。しかしすべてを網羅している訳ではありません。
 
 誤解してほしくないのですが、Laravelのでキュメントは素晴らしいもので必要なことは大抵記載してあります。しかし「全て」を記載するということは難しいことです。
-これからその記載されていない隠れた機能について紹介します。
+これからその記載されていない知られざる機能について紹介します。
 
 ## Cascading Views
 
@@ -124,7 +124,7 @@ foreach ($results->get('tutorial') as $article) {
     echo $article->body; 
 }
 ```
-`Collections`はLaravelが提供する隠れ機能の中で最も便利な物の1つです。
+`Collections`はLaravelが提供する知られざる機能の中で最も便利な物の1つです。
 
 ## Regular Expression Filters
 
@@ -203,4 +203,4 @@ Laravel4.2以降は`JsonSerializable`インターフェイスが追加された�
 
 Laravelがどんな機能を提供しているか知るための一番良い方法は、ソースを解読していくことです。決して難しい事ではありません、そしてフレームワークについてより深く理解が進むでしょう。
 
-もしも他の隠れ機能をみつけたら、是々非々コメント欄で紹介してください！
+もしも他の知られざる機能をみつけたら、是々非々コメント欄で紹介してください！
