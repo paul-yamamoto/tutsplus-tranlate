@@ -1,4 +1,4 @@
-＃SOLIDの原則: Part1 - 単一責任の原則(Single Responsibility Principle)
+#SOLIDの原則: Part1 - 単一責任の原則(Single Responsibility Principle)
 
 original:http://code.tutsplus.com/tutorials/solid-part-1-the-single-responsibility-principle--net-36074
 
