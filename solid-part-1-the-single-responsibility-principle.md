@@ -68,3 +68,49 @@ class Book {
 
 非常に理にかなったクラスの様に見えます。書籍が有りタイトル・著者名を保持していて、ページを送る機能もあります。
 そして現在のページをプリントする機能も持っています。しかしこのクラスは少しばかり問題をはらんでいます。この`Book`クラスを使うアクターとして、どのような人物が考えられますか？とりあえず想像できるアクターとして、（司書が使うような）書籍の管理システムと、（利用者が文字のみ・もしくは画像としてページを取得するための）コンテンツのsy津力システムの２つが考えられます。そしてそれらは全く別物のアクターです。
+
+プレゼンテーション処理にビジネスロジックを入れることは単一責任の原則(SRP)に反する、良くないプログラミングです。下の例を見てください。
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function getCurrentPage() {
+        return "current page content";
+    }
+ 
+}
+ 
+interface Printer {
+ 
+    function printPage($page);
+}
+ 
+class PlainTextPrinter implements Printer {
+ 
+    function printPage($page) {
+        echo $page;
+    }
+ 
+}
+ 
+class HtmlPrinter implements Printer {
+ 
+    function printPage($page) {
+        echo '<div style="single-page">' . $page . '</div>';
+    }
+ 
+}
+```
+
+このエイは単一責任の原則を守ってプレゼンテーションとビジネスロジックを分離した例です。こちらのほうがはるかに設計に拡張性を与えます。
