@@ -32,3 +32,34 @@ Rober C.Martin が彼の著書 Agile Softwear Development, Principles, Patterns,
 関係者（利用者）が対象に対して、「変更する理由」を見出した時は、対象者が利用者を見出したとも言えるのです。この理論で一人の人物から「役割り」を絞り込む事が出来ます。
 
 > 責務とは一つの「アクター」を定義する機能の集合である。 (Robert C Martin)
+
+##変更理由
+
+上記の理由から、変更理由を見つけることがアクターを定義することとも言えます。
+
+> 責務に対する「アクター」とはその責務内の単一の変更理由と同義である。(Robert C Martin)
+
+##既存コードの例
+
+###自分自身を"Print"する機能を持っているオブジェクト。
+まずは`Book`クラスについて見て行きましょう。本の概要とそれに関する機能を持ったクラスです。
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function printCurrentPage() {
+        echo "current page content";
+    }
+}
+```
