@@ -43,7 +43,7 @@ Rober C.Martin が彼の著書 Agile Softwear Development, Principles, Patterns,
 
 ##既存コードの例
 
-###自分自身を"Print"する機能を持っているオブジェクト。
+###自分自身を"Print"する機能を持っているオブジェクト
 まずは`Book`クラスについて見て行きましょう。本の概要とそれに関する機能を持ったクラスです。
 ```
 class Book {
@@ -113,4 +113,76 @@ class HtmlPrinter implements Printer {
 }
 ```
 
-このエイは単一責任の原則を守ってプレゼンテーションとビジネスロジックを分離した例です。こちらのほうがはるかに設計に拡張性を与えます。
+この例は単一責任の原則を守ってプレゼンテーションとビジネスロジックを分離した例です。こちらのほうがはるかに設計に拡張性を与えます。
+
+###自分自身を"Save"する機能を持っているオブジェクト
+
+似た様な例題としていプリントして保存する機能を持ったオブジェクトの例を見ます。
+
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function getCurrentPage() {
+        return "current page content";
+    }
+ 
+    function save() {
+        $filename = '/documents/'. $this->getTitle(). ' - ' . $this->getAuthor();
+        file_put_contents($filename, serialize($this));
+    }
+ 
+}
+```
+
+もう一度アクターを見直しましょう。保存処理に変更が必要になった場合このクラスの変更が必要になります。次のページを取得する処理に変更が必要になった時もこのクラスの変更が必要になります。このクラスには２つの異なる方向性の変更理由が存在しています。
+
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function getCurrentPage() {
+        return "current page content";
+    }
+ 
+}
+ 
+class SimpleFilePersistence {
+ 
+    function save(Book $book) {
+        $filename = '/documents/' . $book->getTitle() . ' - ' . $book->getAuthor();
+        file_put_contents($filename, serialize($book));
+    }
+ 
+}
+```
+永続化処理を別クラスに分けることにより、責務をより明確に分かれ、永続処理に修正が必要になっても、`Book`クラスに対する修正は不要になりました。`DatabasePersistense`クラスを作ったとしても`Book`クラスとそれに関するビジネスロジックには何の影響も与えません。
+
+
+##より高いレベルでの視点
+
+私がこれまでこの記事で言及してきたのは、下の図に有るような一段高い視点での設計です。
+
+この図で"単一責任の原則"が尊重されていることが分かりますか？オブジェクトの生成はこのプログラムのメインのエントリーポイントで軽量なファクトリに任されています。
