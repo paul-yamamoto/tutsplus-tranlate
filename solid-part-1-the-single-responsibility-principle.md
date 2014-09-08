@@ -203,4 +203,74 @@ class SimpleFilePersistence {
 つまり、私達がソフトウェアを設計する時に必要なのは以下の作業です。
 1. アクターを見つけて定義する。
 1. アクターによって導き出される責務を見つける。
-1. 一つの責務を背負うようにクラスやファンクションをグループ化する。
+1. 一つの責務を負うようにクラスやファンクションをグループ化する。
+
+##少し分かりにくい例
+
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function getCurrentPage() {
+        return "current page content";
+    }
+ 
+    function getLocation() {
+        // returns the position in the library
+        // ie. shelf number & room number
+    }
+ 
+}
+```
+
+このクラスはとてもリーズナブルに見えますよね。永続化や表示の処理はこのクラスに含まれていません。
+このクラスには`turnPage()`とその他の書籍の情報を提供するメソッドが含まれています。しかしこのクラスは問題を含んでいます。このクラスをもう一度検討して見てください。`getLocation()`このメソッドは問題になり得ます。
+
+`Book`クラスの全てのメソッドはビジネスロジックです。このクラスの設計もビジネスで使われる視点で考えなければいけません。もしもこのクラスが実際の図書館の司書が書籍の検索・貸出のために使われているとしたら、単一責任の原則が破られていると言えます。
+
+`getTitle()`, `etAuthor()`,`getLocation()`これらのメソッドがこのクラスにあるのは理由があります。このクラスを利用するアプリケーションでは本を検査して、その本の最初のページを表示してその本が探していたものかどうか手助けする事でしょう。この時アプリケーションは`getLocation()`以外のメソッドを全て使います。そして図書館の利用者が書籍の図書館での場所を気にする事は普通はありません。司書が探し出して渡してくれるからです。このクラスを単一責任の原則に沿うように修正してみましょう。
+
+```
+class Book {
+ 
+    function getTitle() {
+        return "A Great Book";
+    }
+ 
+    function getAuthor() {
+        return "John Doe";
+    }
+ 
+    function turnPage() {
+        // pointer to next page
+    }
+ 
+    function getCurrentPage() {
+        return "current page content";
+    }
+ 
+}
+ 
+class BookLocator {
+ 
+    function locate(Book $book) {
+        // returns the position in the library
+        // ie. shelf number & room number
+        $libraryMap->findBookBy($book->getTitle(), $book->getAuthor());
+    }
+ 
+}
+```
+
+今回新しく`BookLocator`が追加されました。図書館の司書のためのクラスです。図書管理利用者が使うのは`Book`クラスのみです。もちろん`BookLocator`には複数の実装方法があります。タイトル・作者その他`Book`オブジェクトの各種情報を利用するでしょう。しかしそれは仕様次第です。重要なのは書架に変更があっても、司書が別の図書館の情報を扱うようになったとしても、`Book`クラスには何の影響も与えないという事です。逆の事を想定しても同様で、書籍のページ表示システムが最初のページを表示するものから本の要約を表示する物になっても、司書向けのシステム・書籍の検索処理に何の影響も与えないという事です。
